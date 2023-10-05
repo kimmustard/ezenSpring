@@ -3,6 +3,7 @@
 <%@ page session="false" %>
 
 <jsp:include page="./layout/header.jsp"></jsp:include>
+
 <h1>
 	Hello world!  
 </h1>

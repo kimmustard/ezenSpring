@@ -11,6 +11,7 @@
 <body>
 <h1> My First Spring Project </h1>
 
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -32,10 +33,10 @@
           <a class="nav-link" href="#">Sign up</a>
         </li>
           <li class="nav-item">
-          <a class="nav-link" href="#">REG</a>
+          <a class="nav-link" href="/board/register">REG</a>
         </li>
           <li class="nav-item">
-          <a class="nav-link" href="#">Board List</a>
+          <a class="nav-link" href="/board/list">Board List</a>
         </li>
         
         

@@ -48,6 +48,7 @@ public class BoardServiceImpl implements BoardService{
 		return bdao.getDetail(bno);
 	}
 
+	
 
 	@Override
 	public int modify(BoardVO bvo) {
@@ -64,7 +65,7 @@ public class BoardServiceImpl implements BoardService{
 		log.info("remove check 2");
 		return bdao.remove(bno);
 	}
-	
+
 	
 	
 }

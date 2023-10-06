@@ -43,6 +43,7 @@
 		if( isOk == 1){
 			alert('삭제완료!');
 		}
+		
 	</script>
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 

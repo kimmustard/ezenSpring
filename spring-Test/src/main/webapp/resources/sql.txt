@@ -21,3 +21,15 @@ registerDate datetime default now(),
 read_count int default 0,
 primary key(bno));
 
+
+## 2023-10-06
+## 멤버 생성 쿼리문
+create table member(
+id varchar(100) not null,
+pw varchar(100) not null,
+name varchar(100),
+email varchar(100),
+home varchar(100),
+age int,
+reg_date datetime default now(),
+primary key(id));

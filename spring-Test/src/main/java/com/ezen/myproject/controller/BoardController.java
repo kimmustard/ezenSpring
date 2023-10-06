@@ -3,7 +3,9 @@ package com.ezen.myproject.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,9 +65,8 @@ public class BoardController {
 		log.info("detail bno = {}", bno);
 		BoardVO bvo = bsv.getDetail(bno);
 		model.addAttribute("bvo", bvo);
-		
 	}
-	
+
 	
 	//수정할 때 들어가는 부당 readCount 2개
 	@PostMapping("/modify")

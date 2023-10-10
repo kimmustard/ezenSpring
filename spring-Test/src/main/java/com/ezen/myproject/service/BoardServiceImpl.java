@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezen.myproject.domain.BoardVO;
+import com.ezen.myproject.domain.PagingVO;
 import com.ezen.myproject.repository.BoardDAO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-
 public class BoardServiceImpl implements BoardService{
 	
 	
@@ -34,9 +34,9 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public List<BoardVO> getList() {
+	public List<BoardVO> getList(PagingVO pgvo) {
 		log.info("list check 2");
-		return bdao.getList();
+		return bdao.getList(pgvo);
 	}
 
 
@@ -64,6 +64,13 @@ public class BoardServiceImpl implements BoardService{
 	public int remove(int bno) {
 		log.info("remove check 2");
 		return bdao.remove(bno);
+	}
+
+
+	@Override
+	public int getTotalCount(PagingVO pgvo) {
+		log.info("board cnt check 2");
+		return bdao.getTotalCount(pgvo);
 	}
 
 	

@@ -39,7 +39,37 @@
 	
 	<a href="/board/modify?bno=${bvo.bno} "><button type="button"> 수정 </button></a>
 	<a href="/board/remove?bno=${bvo.bno} "><button type="button"> 삭제 </button></a>
+	<!-- Comment Line -->
+	<div>
+	<br>
+		<!-- 댓글 작성 라인 -->
+		<div>
+			<span id="cmtWriter">${ses.id}</span>
+			<input type="text" id="cmtText" placeholder="댓글을 작성하세요...">
+			<button type="button" id="cmtPostBtn"> 댓글 등록 </button>
+		</div>
+		
+		<!-- 댓글 표시 라인 -->
+		<div>
+			<ul id="cmtListArea">
+				<li>
+					<div>
+						<div>Writer</div>
+						Content
+					</div>
+					<span>rag_date</span>
+				</li>
+			</ul>
+		
+		</div>
+		
+	</div>
 
+<script type="text/javascript">
+	const bnoVal = `<c:out value="${bvo.bno}" />`
+	console.log(bnoVal);
+</script>
+<script type="text/javascript" src="/resources/js/boardComment.js"></script>
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 </html>

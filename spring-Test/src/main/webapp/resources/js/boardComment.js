@@ -2,7 +2,7 @@ console.log(bnoVal);
 
 async function postCommentToServer(cmtData) {
     try {
-        const url = "/commnet/post";
+        const url = "/comment/post";
         const config = {
             method: "post",
             headers: {

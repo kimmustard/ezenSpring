@@ -81,7 +81,7 @@ public class MemberController {
 	
 	
 	@GetMapping("/modify")
-	public String modifyGet() {
+	public String modifyGet(){
 		return "/member/modify";
 	}
 	

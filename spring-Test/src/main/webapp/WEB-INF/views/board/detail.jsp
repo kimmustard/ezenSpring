@@ -57,7 +57,7 @@
 						<div>Writer</div>
 						Content
 					</div>
-					<span>rag_date</span>
+					<span>reg_date</span>
 				</li>
 			</ul>
 		

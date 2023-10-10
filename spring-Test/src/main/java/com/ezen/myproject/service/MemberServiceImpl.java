@@ -22,8 +22,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	HttpServletRequest request;
 	
-
-	//Request는 꼬일 수있으니 나중에 인젝트로 바꿔본다.
+	
 	@Autowired
 	public MemberServiceImpl(MemberDAO mdao, BCryptPasswordEncoder passwordEncoder, HttpServletRequest request) {
 		this.mdao = mdao;
@@ -85,6 +84,7 @@ public class MemberServiceImpl implements MemberService{
 	
 		
 		//passwordencoder.matches(원래 비밀번호, 암호화된 비밀번호) : 매치가 되는지 체크
+		//DB에서 꺼내온 temp.getPW() 와 방금 로그인한 mvo.getPw()를 비교
 		// 맞으면 true / 틀리면 false
 		if(passwordEncoder.matches(mvo.getPw(), temp.getPw())) {
 			return temp;

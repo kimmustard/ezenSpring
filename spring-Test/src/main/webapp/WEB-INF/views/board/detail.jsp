@@ -48,18 +48,13 @@
 			<input type="text" id="cmtText" placeholder="댓글을 작성하세요...">
 			<button type="button" id="cmtPostBtn"> 댓글 등록 </button>
 		</div>
+		<br>
 		
 		<!-- 댓글 표시 라인 -->
-		<div>
-			<ul id="cmtListArea">
-				<li>
-					<div>
-						<div>Writer</div>
-						Content
-					</div>
-					<span>reg_date</span>
-				</li>
-			</ul>
+		<div id="cmtListArea">
+			
+			
+			
 		
 		</div>
 		
@@ -70,6 +65,9 @@
 	console.log(bnoVal);
 </script>
 <script type="text/javascript" src="/resources/js/boardComment.js"></script>
+<script type="text/javascript">
+	getCommentList(bnoVal);
+</script>
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 </html>

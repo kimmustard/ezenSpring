@@ -1,5 +1,7 @@
 package com.ezen.myproject.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,28 @@ public class CommentServiceImpl implements CommentService{
 		log.info("comment post check1");
 		return cdao.insert(cvo);
 	}
+
+
+	@Override
+	public List<CommentVO> getList(int bno) {
+		
+		return cdao.getList(bno);
+	}
+
+
+	@Override
+	public int edit(CommentVO cvo) {
+		
+		return cdao.update(cvo);
+	}
+
+	@Override
+	public int remove(int cno) {
+		
+		return cdao.delete(cno);
+	}
+
+
 	
 	
 	

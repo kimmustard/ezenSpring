@@ -62,7 +62,9 @@
 
 <script type="text/javascript">
 	const bnoVal = `<c:out value="${bvo.bno}" />`
+	const sesId = `<c:out value="${ses.id}" />`
 	console.log(bnoVal);
+	console.log(sesId);
 </script>
 <script type="text/javascript" src="/resources/js/boardComment.js"></script>
 <script type="text/javascript">

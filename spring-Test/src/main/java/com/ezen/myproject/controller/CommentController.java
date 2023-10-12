@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezen.myproject.domain.CommentVO;
@@ -70,6 +71,7 @@ public class CommentController {
 //		return isOk;
 //	}
 	
+	
 	@GetMapping(value = "/{bno}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<CommentVO>> spread(@PathVariable("bno") int bno){
 		log.info("comment bno = {}", bno);
@@ -80,7 +82,6 @@ public class CommentController {
 	}
 	
 	
-	
 	@PutMapping(value = "/{cno}", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> modify(@PathVariable("cno")int cno, @RequestBody CommentVO cvo,
 			HttpServletRequest request) {
@@ -88,7 +89,7 @@ public class CommentController {
 		//로그인 확인
 		if(request.getSession().getAttribute("ses") == null) {
 			log.info("modify if check");
-			return new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String> ("2", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		MemberVO mvo = (MemberVO) request.getSession().getAttribute("ses");
@@ -107,14 +108,14 @@ public class CommentController {
 	
 	
 	
-	@DeleteMapping("/{cno}")
+	@DeleteMapping(value = "/{cno}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> remove(@PathVariable("cno")int cno, HttpServletRequest request) {
 		log.info("delete commnet cno = {}", cno);
 		
 		//로그인 확인
 		if(request.getSession().getAttribute("ses") == null) {
 			log.info("remove if check");
-			return new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String> ("2", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		MemberVO mvo = (MemberVO) request.getSession().getAttribute("ses");
 		String writer = mvo.getId();

@@ -83,8 +83,10 @@ function getCommentList(bno) {
             str += `</table>`;
             str += `<div>`;
             str += `<input type="text" id="cmtText"  value="${result[i].content}">`;
-            str += `<button type="button" data-cno=${result[i].cno} data-writer="${result[i].writer}" class="modBtn">수정</button>`;
-            str += `<button type="button" data-cno=${result[i].cno} data-writer="${result[i].writer}" class="delBtn">삭제</button>`;
+            if (sesId == result[i].writer) {
+                str += `<button type="button" data-cno=${result[i].cno} data-writer="${result[i].writer}" class="modBtn">수정</button>`;
+                str += `<button type="button" data-cno=${result[i].cno} data-writer="${result[i].writer}" class="delBtn">삭제</button>`;
+            }
             str += `</div>`;
             str += `</div>`;
             str += `<br>`;
@@ -162,10 +164,12 @@ document.addEventListener('click', (e) => {
         editCommentToServer(cmtModData).then(result => {
             if (result == 1) {
                 alert("댓글 수정 성공");
-                getCommentList(bnoVal);
+            } else if (result == 2) {
+                alert("로그인 정보가 일치하지 않습니다.");
             } else {
                 alert("댓글 수정 실패");
             }
+            getCommentList(bnoVal);
         })
 
 
@@ -180,10 +184,12 @@ document.addEventListener('click', (e) => {
         removeCommentToServer(cno).then(result => {
             if (result == 1) {
                 alert("삭제 성공");
-                getCommentList(bnoVal);
+            } else if (result == 2) {
+                alert("로그인 정보가 일치하지 않습니다.");
             } else {
                 alert("삭제 실패");
             }
+            getCommentList(bnoVal);
         })
     }
 })

@@ -14,7 +14,7 @@ public interface CommentDAO {
 
 	int update(CommentVO cvo);
 
-	int delete(int cno);
+	int delete(@Param("cno") int cno, @Param("writer") String writer);
 
 
 }

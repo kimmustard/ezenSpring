@@ -12,7 +12,7 @@ public interface CommentService {
 
 	int edit(CommentVO cvo);
 
-	int remove(int cno);
+	int remove(int cno, String writer);
 
 
 

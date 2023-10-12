@@ -117,9 +117,9 @@ public class CommentController {
 			return new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		MemberVO mvo = (MemberVO) request.getSession().getAttribute("ses");
-		String writer = mvo.getId(); 
+		String writer = mvo.getId();
 		
-		int isOk = csv.remove(cno);
+		int isOk = csv.remove(cno , writer);
 		
 
 		return isOk > 0 ? new ResponseEntity <String> ("1", HttpStatus.OK)

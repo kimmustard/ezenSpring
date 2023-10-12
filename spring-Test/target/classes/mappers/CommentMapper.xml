@@ -18,6 +18,6 @@
 	</update>
 
 	<delete id="delete">
-		delete from comment where cno = #{cno}
+		delete from comment where cno = #{cno} and writer = #{writer}
 	</delete>
 </mapper>

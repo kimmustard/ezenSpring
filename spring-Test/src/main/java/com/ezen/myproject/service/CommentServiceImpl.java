@@ -44,9 +44,9 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public int remove(int cno) {
+	public int remove(int cno, String writer) {
 		
-		return cdao.delete(cno);
+		return cdao.delete(cno, writer);
 	}
 
 

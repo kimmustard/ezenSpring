@@ -142,18 +142,18 @@ document.addEventListener('click', (e) => {
         //내가 선택한 타겟과 가장 가까운 div찾기
         let div = e.target.closest('div');
         let cnoVal = e.target.dataset.cno;
-        let wirterVal = e.target.dataset.writer;
+        let writerVal = e.target.dataset.writer;
         let textContent = div.querySelector('#cmtText').value;
 
 
         console.log(cnoVal);
-        console.log(wirterVal);
+        console.log(writerVal);
         console.log(textContent);
 
         let cmtModData = {
             cno: cnoVal,
             bno: bnoVal,
-            writer: wirterVal,
+            writer: writerVal,
             content: textContent
         };
         console.log(cmtModData);

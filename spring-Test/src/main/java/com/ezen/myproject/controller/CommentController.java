@@ -88,13 +88,14 @@ public class CommentController {
 		
 		
 		MemberVO mvo = (MemberVO) request.getSession().getAttribute("ses");
-		if(!mvo.getId().equals(cvo.getWriter())) {
-			new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 		String writer = mvo.getId(); 
 		cvo.setCno(cno);
 		cvo.setWriter(writer);
 		log.info("test cvo = {}" , cvo);
+		
+		if(!mvo.getId().equals(cvo.getWriter())) {
+			return new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 	
 		int isOk = csv.edit(cvo);

@@ -85,7 +85,11 @@ public class CommentController {
 	public ResponseEntity<String> modify(@PathVariable("cno")int cno, @RequestBody CommentVO cvo,
 			HttpServletRequest request) {
 		
-		
+		//로그인 확인
+		if(request.getSession().getAttribute("ses") == null) {
+			log.info("modify if check");
+			return new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
 		MemberVO mvo = (MemberVO) request.getSession().getAttribute("ses");
 		String writer = mvo.getId(); 
@@ -93,10 +97,6 @@ public class CommentController {
 		cvo.setWriter(writer);
 		log.info("test cvo = {}" , cvo);
 		
-		if(!mvo.getId().equals(cvo.getWriter())) {
-			return new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
 	
 		int isOk = csv.edit(cvo);
 	
@@ -108,9 +108,20 @@ public class CommentController {
 	
 	
 	@DeleteMapping("/{cno}")
-	public ResponseEntity<String> remove(@PathVariable("cno")int cno) {
+	public ResponseEntity<String> remove(@PathVariable("cno")int cno, HttpServletRequest request) {
 		log.info("delete commnet cno = {}", cno);
+		
+		//로그인 확인
+		if(request.getSession().getAttribute("ses") == null) {
+			log.info("remove if check");
+			return new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		MemberVO mvo = (MemberVO) request.getSession().getAttribute("ses");
+		String writer = mvo.getId(); 
+		
 		int isOk = csv.remove(cno);
+		
+
 		return isOk > 0 ? new ResponseEntity <String> ("1", HttpStatus.OK)
 				: new ResponseEntity<String> ("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}

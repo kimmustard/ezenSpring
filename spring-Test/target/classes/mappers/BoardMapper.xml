@@ -9,6 +9,28 @@
 		values(#{title}, #{writer}, #{content})
 	</insert>	
 	
+	<select id="selectBno" resultType="int">
+		select max(bno) from board;	
+	</select>
+		
+	<update id="updateCommentCount">
+		update board set commentCount = (select count(cno) from comment where bno = board.bno);
+	</update>
+	
+	<update id="cmtCount">
+		update board set commentCount = commentCount + 1 where bno = #{bno} 
+	</update>
+	
+	<update id="cmtDeCount">
+		update board set commentCount = commentCount - 1 where bno = #{bno} 
+	</update>
+	
+	<update id="fileCount">
+		update board set fileCount = #{cntFile} where bno = #{bno} 
+	</update>
+	
+	
+	
 	<select id="getList" resultType="com.ezen.myproject.domain.BoardVO"> 
 		select * from board where isDel = 'N'
   		<include refid="search"></include>

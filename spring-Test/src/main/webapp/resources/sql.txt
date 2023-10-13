@@ -56,3 +56,8 @@ bno int,
 file_size int,
 reg_date datetime default now(),
 primary key(uuid));
+
+## 2023-10-13
+## DB에 댓글개수 파일개수 필드 추가
+alter table board add commentCount int default 0;
+alter table board add fileCount int default 0;

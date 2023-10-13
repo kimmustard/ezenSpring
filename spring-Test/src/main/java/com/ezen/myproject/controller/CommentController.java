@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezen.myproject.domain.CommentVO;
 import com.ezen.myproject.domain.MemberVO;
+import com.ezen.myproject.service.BoardService;
 import com.ezen.myproject.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +30,12 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentController {
 
 	private CommentService csv;
+	private BoardService bsv;
 
 	@Autowired
-	public CommentController(CommentService csv) {
+	public CommentController(CommentService csv,BoardService bsv) {
 		this.csv = csv;
+		this.bsv = bsv;
 	}
 
 	//ResponseEntity 객체 사용
@@ -54,6 +56,9 @@ public class CommentController {
 		//DB연결
 		int isOk = csv.post(cvo);
 		
+		if(isOk > 0) {
+			bsv.cmtCount(cvo);
+		}
 		//리턴시 response의 통신상태를 같이 리턴
 		return isOk>0 ? new ResponseEntity<String>("1", HttpStatus.OK) 
 				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -108,9 +113,10 @@ public class CommentController {
 	
 	
 	
-	@DeleteMapping(value = "/{cno}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> remove(@PathVariable("cno")int cno, HttpServletRequest request) {
+	@DeleteMapping(value = "/{cno}/{bno}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> remove(@PathVariable("cno")int cno, @PathVariable("bno") int bno, HttpServletRequest request) {
 		log.info("delete commnet cno = {}", cno);
+		log.info("delete commnet bno = {}", bno);
 		
 		//로그인 확인
 		if(request.getSession().getAttribute("ses") == null) {

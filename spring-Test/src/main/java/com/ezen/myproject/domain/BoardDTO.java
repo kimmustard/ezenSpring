@@ -1,26 +1,22 @@
 package com.ezen.myproject.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
+
 @Setter
+@Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileVO {
+public class BoardDTO {
 
-	
-	private String uuid;
-	private String save_dir;
-	private String file_name;
-	private int file_type;
-	private int bno;
-	private Long file_size;
-	private String reg_date;
-	
+	private BoardVO bvo;
+	private List<FileVO> flist;
 	
 }

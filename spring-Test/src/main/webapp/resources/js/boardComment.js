@@ -119,9 +119,9 @@ async function editCommentToServer(cmtModData) {
     }
 }
 
-async function removeCommentToServer(cno) {
+async function removeCommentToServer(cno, bno) {
     try {
-        const url = '/comment/' + cno;
+        const url = '/comment/' + cno + '/' + bno;
         const config = {
             method: 'delete'
         };
@@ -179,9 +179,10 @@ document.addEventListener('click', (e) => {
         console.log("삭제버튼 클릭");
         let div = e.target.closest('div');
         let cno = e.target.dataset.cno;
+        let bno = bnoVal;
+        console.log(bnoVal);
 
-
-        removeCommentToServer(cno).then(result => {
+        removeCommentToServer(cno, bno).then(result => {
             if (result == 1) {
                 alert("삭제 성공");
             } else if (result == 2) {

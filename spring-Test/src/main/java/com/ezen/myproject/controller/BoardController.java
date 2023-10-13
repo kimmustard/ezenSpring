@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ezen.myproject.domain.BoardDTO;
 import com.ezen.myproject.domain.BoardVO;
+import com.ezen.myproject.domain.FileVO;
 import com.ezen.myproject.domain.PagingVO;
+import com.ezen.myproject.handler.FileHandler;
 import com.ezen.myproject.handler.PagingHandler;
 import com.ezen.myproject.service.BoardService;
 
@@ -27,10 +30,13 @@ public class BoardController{
 	
 	private BoardService bsv;
 	
+	private FileHandler fhd;
+	
 
 	@Autowired
-	public BoardController(BoardService bsv) {
+	public BoardController(BoardService bsv, FileHandler fhd) {
 		this.bsv = bsv;
+		this.fhd = fhd;
 	}
 
 
@@ -57,9 +63,23 @@ public class BoardController{
 		
 		
 		
+		List<FileVO> flist = null;
 		
-//		int isOk = bsv.register(bvo);
-//		log.info("register = {} ", (isOk > 0 ? "Ok" : "Fail"));
+		//files가 null 일 수 있음. (첨부파일이 있을 경우에만 fhd를 호출)
+		if(files[0].getSize() > 0) {
+			//첫번째 파일의 size가 0보다 크다면..?
+			//flist에 파일 객체 담기
+			flist = fhd.uploadFiles(files);
+		}else {
+			log.info("file null");
+		}
+		
+		BoardDTO bdto = new BoardDTO(bvo, flist);
+
+		int isOk = bsv.register(bdto);
+		log.info("register = {} ", (isOk > 0 ? "Ok" : "Fail"));
+		
+		
 		
 		return "redirect:/board/list";
 	}
@@ -68,6 +88,8 @@ public class BoardController{
 	@GetMapping("/list")
 	public String list(Model model, PagingVO pgvo) {
 		log.info("PagingVO = {} ", pgvo);
+		
+		// update board set commentCount = ( select count(cno) from comment where bno = board.bno);
 		
 		// DB로 getList(pgvo);
 		List<BoardVO> list = bsv.getList(pgvo);

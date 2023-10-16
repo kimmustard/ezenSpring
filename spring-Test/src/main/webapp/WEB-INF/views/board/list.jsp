@@ -94,6 +94,7 @@
 		}
 		
 	</script>
+	
 	<jsp:include page="../layout/footer.jsp"></jsp:include>
 
 </body>

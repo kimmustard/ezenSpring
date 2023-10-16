@@ -27,6 +27,12 @@ public interface BoardService {
 
 	void cmtDeCount(int cno, int bno);
 
+	BoardDTO getDetailFile(int bno);
+
+	int removeFile(String uuid);
+
+	int modifyFile(BoardDTO bdto);
+
 
 
 	

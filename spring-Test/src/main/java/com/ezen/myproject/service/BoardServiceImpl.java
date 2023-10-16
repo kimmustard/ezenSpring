@@ -56,8 +56,7 @@ public class BoardServiceImpl implements BoardService{
 					// 파일 저장
 					isOk *= fdao.insertFile(fvo);
 				}
-				int cntFile = bdto.getFlist().size();
-				bdao.fileCount(bno, cntFile);
+
 			}
 		}
 		
@@ -72,7 +71,7 @@ public class BoardServiceImpl implements BoardService{
 		log.info("list check 2");
 		
 		bdao.updateCommentCount();
-		
+		bdao.updateFileCount();
 		return bdao.getList(pgvo);
 	}
 
@@ -122,6 +121,47 @@ public class BoardServiceImpl implements BoardService{
 	public void cmtDeCount(int cno, int bno) {
 		bdao.cmtDeCount(cno,bno);
 		
+	}
+
+
+	@Override
+	public BoardDTO getDetailFile(int bno) {
+		// detail bvo, readCount , file 같이 가져오기 
+		
+		bdao.readCount(bno, 1); // 리드 카운트 올리기
+		BoardDTO bdto = new BoardDTO();
+		bdto.setBvo(bdao.getDetail(bno));// bdao bvo 호출
+		bdto.setFlist(fdao.getFileList(bno));
+		return bdto;
+	}
+
+
+	@Override
+	public int removeFile(String uuid) {
+		
+		return fdao.removeFile(uuid);
+	}
+
+
+	@Override
+	public int modifyFile(BoardDTO bdto) {
+		bdao.readCount(bdto.getBvo().getBno(), -2);
+		int isOk = bdao.modify(bdto.getBvo());	//기존 Bvo 업데이트
+		if(bdto.getFlist() == null) {
+			isOk *= 1;
+		}else {
+			if(isOk >0 && bdto.getFlist().size() > 0) {
+				int bno = bdto.getBvo().getBno();
+				// 모든 fvo에 bno 세팅
+				for(FileVO fvo : bdto.getFlist()) {
+					fvo.setBno(bno);
+					isOk *= fdao.insertFile(fvo);
+				}
+			}
+		}
+		
+		return isOk;
+	
 	}
 
 	

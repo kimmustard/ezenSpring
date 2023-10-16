@@ -36,6 +36,10 @@ public interface BoardDAO {
 
 	void updateCommentCount();
 
+	int removeFile(String uuid);
+
+	void updateFileCount();
+
 
 
 }

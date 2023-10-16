@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+     <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +10,8 @@
 </head>
 <body>
 	<jsp:include page="../layout/header.jsp"></jsp:include>
+	
+	<c:set value="${boardDTO.bvo }" var="bvo"></c:set>
 	<table class="table table-hover">
 			<tr>
 				<th>번호</th>
@@ -36,6 +39,45 @@
 			</tr>
 
 	</table>
+	
+	<!-- File -->
+	<c:set value="${boardDTO.flist}" var="flist"></c:set>
+	<div>
+		<ul>
+			<!-- 파일 개수만큼 li를 추가하여 파일을 표시 1일 경우만 표시 -->
+			<!-- li
+				div => img 그림표시
+				div => div 파일이름 작성일자 span 크기 설정 -->
+				<!-- 하나의 파일만 따와서 fvo로 이름 저장 -->
+				<c:forEach items="${flist}" var="fvo">
+					<li>
+						<c:choose>
+							<c:when test="${fvo.file_type > 0 }">
+								<div id="fileListArea">
+								<!-- /upload/month/day/uuid_file_name 이 필요하다 -->
+									<img alt="그림 없음" src="/upload/${fn:replace(fvo.save_dir,'\\','/')}/${fvo.uuid}_th_${fvo.file_name}">
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div>
+									<!-- file 아이콘 같은 모양 값으로 넣을 수 있음. -->
+								</div>
+							</c:otherwise>
+						</c:choose>
+					
+						<div>${fvo.file_name }</div>
+						
+						
+
+					</li>		
+				</c:forEach>
+		</ul>
+	
+	
+	
+	</div>
+	
+	
 	
 	<a href="/board/modify?bno=${bvo.bno} "><button type="button"> 수정 </button></a>
 	<a href="/board/remove?bno=${bvo.bno} "><button type="button"> 삭제 </button></a>

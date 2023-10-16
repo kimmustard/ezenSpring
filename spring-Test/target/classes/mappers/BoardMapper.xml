@@ -25,10 +25,12 @@
 		update board set commentCount = commentCount - 1 where bno = #{bno} 
 	</update>
 	
-	<update id="fileCount">
-		update board set fileCount = #{cntFile} where bno = #{bno} 
+	<!-- update board set fileCount = #{cntFile} where bno = #{bno}  -->
+	<update id="updateFileCount">
+		update board set fileCount = (select count(uuid) from file where bno = board.bno);
 	</update>
 	
+
 	
 	
 	<select id="getList" resultType="com.ezen.myproject.domain.BoardVO"> 

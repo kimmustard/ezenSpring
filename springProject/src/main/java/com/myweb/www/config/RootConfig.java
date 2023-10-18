@@ -23,6 +23,7 @@ public class RootConfig {
 	// 전과 달라진 부분 Logf4jdbc-log4j2 사용
 	// Hikari-CP 사용
 
+
 	@Autowired
 	ApplicationContext applicationContext;
 
@@ -37,7 +38,7 @@ public class RootConfig {
 		HikariConfig hikariConfig = new HikariConfig();
 		// log4jdbc - log4j2의 드라이버 클래스 url을 사용
 		hikariConfig.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-		hikariConfig.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/springtest");
+		hikariConfig.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/springdb");
 		hikariConfig.setUsername("springUser");
 		hikariConfig.setPassword("mysql");
 
@@ -52,8 +53,7 @@ public class RootConfig {
 		hikariConfig.addDataSourceProperty("dataSource.cachePrepStmts", "true");
 		// mySql 드라이버가 한 연결당 cachePrepStatment의 수에 관한 설정 default값 = 25 보통 25~500 사이 권장
 		hikariConfig.addDataSourceProperty("dataSource.prepStmtCacheSize", "250");
-		// mySql connection당 캐싱할 perparedStatement의 개수 지정 옵션 default값 = 256 보통 2408개 까지
-		// 가능
+		// mySql connection당 캐싱할 perparedStatement의 개수 지정 옵션 default값 = 256 보통 2408개 까지 가능
 		hikariConfig.addDataSourceProperty("dataSource.perpStmtCacheSqlLimit", "true"); // true 기본값 설정
 		// mySql 서버에서 최신 이슈가 있을때, 지원받는 설정 server-side 지원 설정 true
 		hikariConfig.addDataSourceProperty("dataSource.useServerPerpStmts", "true");

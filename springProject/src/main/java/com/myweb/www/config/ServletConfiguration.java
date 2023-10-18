@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.myweb.www.controller","com.myweb.www.handler"})
+@ComponentScan(basePackages = {"com.myweb.www.controller", "com.myweb.www.handler"})
 public class ServletConfiguration implements WebMvcConfigurer{
 
 	@Override
@@ -18,6 +18,7 @@ public class ServletConfiguration implements WebMvcConfigurer{
 		//나중에 파일업로드 경로 추가
 	}
 
+	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		InternalResourceViewResolver viewResolver =

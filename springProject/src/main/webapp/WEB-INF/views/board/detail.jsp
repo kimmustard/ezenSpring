@@ -43,7 +43,7 @@
 	
 	<a href="/board/modify?bno=${bvo.bno }"><button> 수정하기 </button></a>
 	<a href="/board/remove?bno=${bvo.bno }"><button> 삭제하기 </button></a>
-	<a href="/"><button> 메인으로 </button></a>
+	<a href="/board/list"><button> 메인으로 </button></a>
 
 
 	<script type="text/javascript">

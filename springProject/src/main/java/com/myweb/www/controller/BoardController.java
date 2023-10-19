@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myweb.www.domain.BoardVO;
+import com.myweb.www.domain.PagingVO;
+import com.myweb.www.handler.PagingHandler;
 import com.myweb.www.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/board/*")
+//@PropertySource("classpath:test.properties")
 @RequiredArgsConstructor
 public class BoardController {
 	
@@ -29,15 +34,27 @@ public class BoardController {
 	
 	private final BoardService bsv;
 	
+	
+//	@Value("${test}")
+//	private String test;
+	
 	@GetMapping("/register")
 	public String register() {
 		log.info("log test");
+//		System.out.println("test = " + test);
 		return "/board/register";
 	}
 	
 
 	@PostMapping("/register")
-	public String registerPost(@ModelAttribute BoardVO bvo) {
+	public String registerPost(@Validated @ModelAttribute("bvo") BoardVO bvo, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			log.info("error 발생!!");
+			log.info("errors = {}", bindingResult);
+			return "/board/register";
+		}
+		
 		log.info("register bvo ={} ", bvo);
 		int isOk = bsv.insert(bvo); 
 		log.info("register = {} ", (isOk > 0 ? "Ok" : "Fail"));
@@ -45,12 +62,26 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	
+	//paging 추가
 	@GetMapping("/list")
-	public String list(Model model) {
+	public String list(Model model ,PagingVO pgvo) {
+		log.info("list pgvo = {}" , pgvo);
 		
-		List<BoardVO> list = bsv.getList();
-		
+		List<BoardVO> list = bsv.getList(pgvo);
 		model.addAttribute("list", list);
+		
+		
+		//페이징 처리
+		//총 페이지 갯수 totalCount
+		int totalCount = bsv.getTotalCount(pgvo);
+		PagingHandler ph = new PagingHandler(pgvo, totalCount);
+		log.info("pgvo = {}" , pgvo);
+		log.info("ph = {}", ph);
+		log.info("totalCount = {}", totalCount);
+		model.addAttribute("ph",ph);
+		
+		
 		return "/board/list";
 	}
 	
@@ -79,9 +110,9 @@ public class BoardController {
 		
 		int isOk = bsv.modify(bvo);
 		log.info("register = {} ", (isOk > 0 ? "Ok" : "Fail"));
-		
+		rttr.addAttribute("bno", bvo.getBno());
 		rttr.addFlashAttribute("isOk", isOk);
-		return "redirect:/board/detail?bno="+bvo.getBno();
+		return "redirect:/board/detail";
 	}
 	
 	

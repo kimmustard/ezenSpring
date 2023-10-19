@@ -19,6 +19,7 @@ public class ServletConfiguration implements WebMvcConfigurer{
 	}
 
 	
+	
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 		InternalResourceViewResolver viewResolver =

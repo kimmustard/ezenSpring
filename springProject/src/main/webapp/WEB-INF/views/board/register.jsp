@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib  prefix="form"  uri="http://www.springframework.org/tags/form"%>
+	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@
 	<form:form action="/board/register" method="post" modelAttribute="bvo">
 		<div class="mb-3">
 			<label for="exampleFormControlInput1" class="form-label">title</label>
-			<input type="text" class="form-control" id="exampleFormControlInput1">
+			<form:input type="text" path="title" class="form-control" name="title" value="" id="exampleFormControlInput1" />
 			<form:errors class="errorFont" path="title"></form:errors>
 		</div>
 		<div class="mb-3">

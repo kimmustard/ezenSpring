@@ -39,9 +39,10 @@ public class BoardController {
 //	private String test;
 	
 	@GetMapping("/register")
-	public String register() {
+	public String register(Model model) {
 		log.info("log test");
 //		System.out.println("test = " + test);
+		model.addAttribute("bvo",new BoardVO());
 		return "/board/register";
 	}
 	
@@ -50,8 +51,6 @@ public class BoardController {
 	public String registerPost(@Validated @ModelAttribute("bvo") BoardVO bvo, BindingResult bindingResult) {
 		
 		if(bindingResult.hasErrors()) {
-			log.info("error 발생!!");
-			log.info("errors = {}", bindingResult);
 			return "/board/register";
 		}
 		

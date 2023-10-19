@@ -106,6 +106,7 @@ public class FileHandler {
 	public boolean isImageFile(File storeFile) throws IOException {
 		
 		String mimeType = new Tika().detect(storeFile);	//image/jpg , image/png
+		log.info("mimeType = {}" + mimeType);
 		return mimeType.startsWith("image")? true : false;
 	}
 	

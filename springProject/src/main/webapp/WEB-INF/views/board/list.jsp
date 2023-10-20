@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-.container-fluid {
+.container-fluid, .pagination{
 	display: flex;
 	justify-content: center;
 }
@@ -15,12 +15,20 @@
 .searchBtn {
 	width: 350px;
 }
+.listContainer{
+	display: flex;
+	justify-content: center;
+}
+.listbox{
+	width: 1000px;
+}
 </style>
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
 	<jsp:include page="../common/nav.jsp" />
-
+	<div class="listContainer">
+		<div class="listbox">
 	<!-- 검색 라인 -->
 	<div class="container-fluid">
 		<form action="/board/list" method="get" class="d-flex" role="search">
@@ -104,14 +112,14 @@
 				</li>
 			</ul>
 		</nav>
-
+		
 
 	</div>
 
 
 
-
-
+	</div>
+</div>
 	<script type="text/javascript">
 		const isOk = `<c:out value="${isOk}" />`;
 		console.log(isOk);
@@ -119,6 +127,7 @@
 			alert('삭제완료!');
 		}
 	</script>
+	
 	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

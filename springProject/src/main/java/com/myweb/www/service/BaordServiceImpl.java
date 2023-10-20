@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BaordServiceImpl implements BoardService{
 
 	private final BoardDAO bdao;
+	private final CommentService csv;
 
 	@Override
 	public int insert(BoardVO bvo) {
@@ -44,6 +45,7 @@ public class BaordServiceImpl implements BoardService{
 
 	@Override
 	public int remove(Long bno) {
+		csv.cmtDeleteAll(bno);
 		return bdao.remove(bno);
 	}
 

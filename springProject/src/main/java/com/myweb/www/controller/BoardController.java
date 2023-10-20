@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,7 +50,6 @@ public class BoardController {
 
 	@PostMapping("/register")
 	public String registerPost(@Validated @ModelAttribute("bvo") BoardVO bvo, BindingResult bindingResult) {
-		
 		if(bindingResult.hasErrors()) {
 			return "/board/register";
 		}
@@ -110,7 +110,7 @@ public class BoardController {
 		int isOk = bsv.modify(bvo);
 		log.info("register = {} ", (isOk > 0 ? "Ok" : "Fail"));
 		rttr.addAttribute("bno", bvo.getBno());
-		rttr.addFlashAttribute("isOk", isOk);
+		rttr.addFlashAttribute("isMod", isOk);
 		return "redirect:/board/detail";
 	}
 	

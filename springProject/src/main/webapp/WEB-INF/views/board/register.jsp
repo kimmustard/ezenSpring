@@ -18,16 +18,16 @@
 	<form:form action="/board/register" method="post" modelAttribute="bvo">
 		<div class="mb-3">
 			<label for="exampleFormControlInput1" class="form-label">title</label>
-			<form:input type="text" path="title" class="form-control" name="title" value="" id="exampleFormControlInput1" />
+			<form:input type="text" path="title" class="form-control" name="title" id="exampleFormControlInput1" />
 			<form:errors class="errorFont" path="title"></form:errors>
 		</div>
 		<div class="mb-3">
 			<label for="exampleFormControlInput1" class="form-label">writer</label>
-			<input type="text" class="form-control" name="writer" id="exampleFormControlInput1">
+			<input type="text" class="form-control" name="writer" value="" id="exampleFormControlInput1">
 		</div>
 		<div class="mb-3">
 			<label for="exampleFormControlTextarea1" class="form-label">content</label>
-			<textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="3"></textarea>
+			<form:textarea class="form-control" path="content" name="content" id="exampleFormControlTextarea1" rows="3" />
 			<form:errors class="errorFont" path="content"></form:errors>
 		</div>
 		<button type="submit" class="btn btn-primary"> 작성완료 </button>

@@ -41,14 +41,15 @@ document.getElementById('cmtPostBtn').addEventListener('click', () => {
                 alert('댓글 등록 성공!');
                 getCommentList(cmtData.bno);
             }
+            document.getElementById('cmtText').value = '';
         })
     }
 
 })
 
-async function spreadCommentListFromServer(bno) {
+async function spreadCommentListFromServer(bno, page) {
     try {
-        const resp = await fetch('/comment/' + bno);
+        const resp = await fetch('/comment/' + bno + '/' + page);
         const result = await resp.json();
         return result;
     } catch (error) {
@@ -56,31 +57,52 @@ async function spreadCommentListFromServer(bno) {
     }
 }
 
-function getCommentList(bno) {
-    spreadCommentListFromServer(bno).then(result => {
+//처음 뿌릴때는 첫페이지 값 = 1로 고정
+function getCommentList(bno, page = 1) {
+    spreadCommentListFromServer(bno, page).then(result => {
         console.log(result);
+        if (result.cmtList.length > 0) {
+            let div = document.getElementById('cmtListArea');
+            //다시 댓글을 뿌릴때 기존 값 삭제 1 page 일 경우에만
+            if (page == 1) {
+                div.innerHTML = "";
+            }
 
-        let div = document.getElementById('cmtListArea');
-        div.innerHTML = "";
-        for (let i = 0; i < result.length; i++) {
-            let str = `<div id="cmtBody${i}">`;
-            str += `<li class="list-group-item" data-cno=${result[i].cno} id="cmtBody${i}">`;
-            str += `<div>`;
-            str += `<div> ${result[i].writer} </div>`;
-            str += `${result[i].content}`;
-            str += `</div>`;
-            str += `<span class="badge rounded-pill text-bg-primary"> ${result[i].modAt} </span>`;
-            str += `<div id="cmtBtnContainer">`;
-            str += `<button type="button" class="modBtn btn btn-primary" data-content=${result[i].content} data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
-            str += `<button type="button" data-cno=${result[i].cno} data-writer="${result[i].writer}" class="delBtn btn btn-primary">삭제</button>`;
-            str += `</div>`;
-            str += `</li>`;
-            str += `</div>`;
-            div.innerHTML += str;
-            document.getElementById('cmtBtnContainer').style.display = 'flex';
+            for (let i = 0; i < result.cmtList.length; i++) {
+                let str = `<div id="cmtBody${i}">`;
+                str += `<li class="list-group-item" data-cno=${result.cmtList[i].cno} id="cmtBody${i}">`;
+                str += `<div>`;
+                str += `<div> ${result.cmtList[i].writer} </div>`;
+                str += `${result.cmtList[i].content}`;
+                str += `</div>`;
+                str += `<span class="badge rounded-pill text-bg-primary"> ${result.cmtList[i].modAt} </span>`;
+                str += `<div id="cmtBtnContainer">`;
+                str += `<button type="button" class="modBtn btn btn-primary" data-content=${result.cmtList[i].content} data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
+                str += `<button type="button" data-cno=${result.cmtList[i].cno} data-writer="${result.cmtList[i].writer}" class="delBtn btn btn-primary">삭제</button>`;
+                str += `</div>`;
+                str += `</li>`;
+                str += `</div>`;
+                div.innerHTML += str;
+                document.getElementById('cmtBtnContainer').style.display = 'flex';
+            }
+            //댓글 페이징 코드
+            let moreBtn = document.getElementById('moreBtn');
+            //db pgvo + list 같이 가져와야 값을 줄 수 있음.
+            if (result.pgvo.pageNo < result.endPage || result.next) {
+                moreBtn.style.visibility = 'visible';   //버튼 표시
+                moreBtn.dataset.page = page + 1;
+            } else {
+                moreBtn.style.visibility = 'hidden';    //버튼 숨김
+            }
+
+        } else {
+            document.getElementById('cmtListArea').innerHTML += "댓글이 없습니다.";
         }
 
     })
+
+
+
 
 }
 
@@ -134,6 +156,8 @@ document.addEventListener('click', (e) => {
             }
             getCommentList(bnoVal);
         })
+    } else if (e.target.id == 'moreBtn') {
+        getCommentList(bnoVal, parseInt(e.target.dataset.page));
 
 
 

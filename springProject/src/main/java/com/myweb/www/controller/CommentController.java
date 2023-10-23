@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myweb.www.domain.CommentVO;
+import com.myweb.www.domain.PagingVO;
+import com.myweb.www.handler.PagingHandler;
 import com.myweb.www.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -47,13 +49,19 @@ public class CommentController {
 		
 	}
 	
-	@GetMapping(value = "/{bno}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<CommentVO>> spread(@PathVariable("bno")long bno){
+	@GetMapping(value = "/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PagingHandler> spread(
+			@PathVariable("bno")long bno, 
+			@PathVariable("page")int page){
+		
+		
 		log.info("List bno = {}", bno);
+		log.info("List page = {}", page);
+		PagingVO pgvo = new PagingVO(page, 5);
 		
-		List<CommentVO> list = csv.getList(bno);
+		PagingHandler list = csv.getList(bno, pgvo);
 		
-		return new ResponseEntity<List<CommentVO>> (list, HttpStatus.OK);
+		return new ResponseEntity<PagingHandler> (list, HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/{cno}")

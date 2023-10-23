@@ -1,5 +1,8 @@
 package com.myweb.www.handler;
 
+import java.util.List;
+
+import com.myweb.www.domain.CommentVO;
 import com.myweb.www.domain.PagingVO;
 
 import lombok.Getter;
@@ -16,6 +19,8 @@ public class PagingHandler {
 	private int realEndPage;
 	private int totalCount;	//총 게시물 수
 	private PagingVO pgvo;
+	
+	private List<CommentVO> cmtList;
 	
 	// 현재 페이지 값 가져오는 용도/ totalCount DB에서 조회 매개변수로 입력받기
 	public PagingHandler(PagingVO pgvo, int totalCount) {
@@ -45,5 +50,14 @@ public class PagingHandler {
 		
 		
 	}
+	
+	public PagingHandler(PagingVO pgvo, int totalCount, 
+			List<CommentVO> cmtList) {
+		this(pgvo, totalCount);
+		this.cmtList = cmtList;
+		
+		
+	}
+	
 	
 }

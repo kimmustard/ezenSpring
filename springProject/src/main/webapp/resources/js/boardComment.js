@@ -64,14 +64,14 @@ function getCommentList(bno) {
         div.innerHTML = "";
         for (let i = 0; i < result.length; i++) {
             let str = `<div id="cmtBody${i}">`;
-            str += `<li class="list-group-item" id="cmtBody${i}">`;
+            str += `<li class="list-group-item" data-cno=${result[i].cno} id="cmtBody${i}">`;
             str += `<div>`;
             str += `<div> ${result[i].writer} </div>`;
             str += `${result[i].content}`;
             str += `</div>`;
             str += `<span class="badge rounded-pill text-bg-primary"> ${result[i].modAt} </span>`;
             str += `<div id="cmtBtnContainer">`;
-            str += `<button type="button" class="modBtn btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
+            str += `<button type="button" class="modBtn btn btn-primary" data-content=${result[i].content} data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
             str += `<button type="button" data-cno=${result[i].cno} data-writer="${result[i].writer}" class="delBtn btn btn-primary">삭제</button>`;
             str += `</div>`;
             str += `</li>`;
@@ -104,7 +104,41 @@ document.addEventListener('click', (e) => {
     console.log(e);
     if (e.target.classList.contains('modBtn')) {
         console.log("수정 버튼 클릭");
+        let li = e.target.closest('li');
+        let conVal = li.dataset.cno;
+        let cmtText = e.target.dataset.content;
+        console.log(conVal);
+        // let cmtText = document.getElementById('cmtTextInput').value;
+        //nextSibling() : 같은 부모의 다음 형제 객체를 반환
+        // let cmtText = li.quertSelector('.fw-bold').nextSibling;
+        console.log(cmtText);
+
+        //위에서 받은 변수를 버튼에 데이터 반영
+
+        document.getElementById('cmtModBtn').setAttribute('data-cno', li.dataset.cno);
+        document.getElementById('cmtModBtn').setAttribute('data-content', cmtText);
+        document.getElementById('cmtTextMod').value = cmtText;
+
+
+    } else if (e.target.id == 'cmtModBtn') {
+
+        let cmtDataMod = {
+            cno: e.target.dataset.cno,
+            content: document.getElementById('cmtTextMod').value
+        };
+        console.log(cmtDataMod);
+        editCommentToServer(cmtDataMod).then(result => {
+            if (parseInt(result)) {
+                //모달창 닫기
+                document.querySelector('.btn-close').click();
+            }
+            getCommentList(bnoVal);
+        })
+
+
+
     } else if (e.target.classList.contains('delBtn')) {
+        console.log("삭제 버튼 클릭");
         let cno = e.target.dataset.cno;
 
         removeCommentToServer(cno).then(result => {
@@ -117,3 +151,22 @@ document.addEventListener('click', (e) => {
         })
     }
 })
+
+async function editCommentToServer(cmtDataMod) {
+    try {
+        const url = '/comment/' + cmtDataMod.cno;
+        const config = {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify(cmtDataMod)
+        };
+        const resp = await fetch(url, config);
+        const result = await resp.text();
+        return result;
+
+    } catch (error) {
+        console.log(error);
+    }
+}

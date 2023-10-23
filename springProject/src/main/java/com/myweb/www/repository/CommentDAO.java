@@ -14,4 +14,6 @@ public interface CommentDAO {
 
 
 	void cmtDeleteAll(Long bno);
+
+	int modify(CommentVO cvo);
 }

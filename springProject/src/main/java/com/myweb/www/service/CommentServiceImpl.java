@@ -38,5 +38,11 @@ public class CommentServiceImpl implements CommentService{
 		
 		cdao.cmtDeleteAll(bno);
 	}
+
+	@Override
+	public int modify(CommentVO cvo) {
+		
+		return cdao.modify(cvo);
+	}
 	
 }

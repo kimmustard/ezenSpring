@@ -54,9 +54,18 @@
 				<th>조회수</th>
 				<td>${bvo.readCount }</td>
 			</tr>
-		
-		
 		</table>
+		<!-- 그림 라인 -->
+		<c:forEach items="${flist }">
+			
+		
+		
+		
+		</c:forEach>
+		
+		
+		
+		
 		<div class="btnContainer">
 			<a href="/board/modify?bno=${bvo.bno }"><button class="btn btn-primary"> 수정 </button></a>
 			<a href="/board/remove?bno=${bvo.bno }"><button class="btn btn-primary"> 삭제 </button></a>

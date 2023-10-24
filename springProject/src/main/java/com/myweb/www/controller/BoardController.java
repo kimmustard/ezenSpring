@@ -5,17 +5,20 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.myweb.www.domain.BoardDTO;
 import com.myweb.www.domain.BoardVO;
+import com.myweb.www.domain.FileVO;
 import com.myweb.www.domain.PagingVO;
+import com.myweb.www.handler.FileHandler;
 import com.myweb.www.handler.PagingHandler;
 import com.myweb.www.service.BoardService;
 
@@ -34,6 +37,7 @@ public class BoardController {
 	//목적지 => /board/register
 	
 	private final BoardService bsv;
+	private final FileHandler fh;
 	
 	
 //	@Value("${test}")
@@ -49,13 +53,23 @@ public class BoardController {
 	
 
 	@PostMapping("/register")
-	public String registerPost(@Validated @ModelAttribute("bvo") BoardVO bvo, BindingResult bindingResult) {
+	public String registerPost(@Validated @ModelAttribute("bvo") BoardVO bvo, BindingResult bindingResult,
+			@RequestParam(name = "files", required = false)MultipartFile[] files ) {
+		
 		if(bindingResult.hasErrors()) {
 			return "/board/register";
 		}
 		
-		log.info("register bvo ={} ", bvo);
-		int isOk = bsv.insert(bvo); 
+		
+		List<FileVO> flist = null;
+		//file upload handler 생성
+		if(files[0].getSize() > 0) {
+			flist = fh.uploadFiles(files);
+		}
+		
+		
+		
+		int isOk = bsv.insert(new BoardDTO(bvo, flist)); 
 		log.info("register = {} ", (isOk > 0 ? "Ok" : "Fail"));
 		
 		return "redirect:/board/list";
@@ -88,9 +102,11 @@ public class BoardController {
 	public String nodetail(@RequestParam("bno")Long bno, Model model) {
 		log.info("detail Modify bno = {}", bno);
 		
-		BoardVO bvo = bsv.cntdetail(bno);
-
-		model.addAttribute("bvo",bvo);
+//		BoardVO bvo = bsv.cntdetail(bno);
+		BoardDTO bdto = bsv.getCntDetail(bno);
+		model.addAttribute("bvo", bdto.getBvo());
+		model.addAttribute("boardDTO", bdto);
+		
 		return "/board/detail";
 	}
 	
@@ -98,8 +114,11 @@ public class BoardController {
 	public void detail(@RequestParam("bno")Long bno, Model model) {
 		log.info("detail Modify bno = {}", bno);
 		
-		BoardVO bvo = bsv.detail(bno);
-		model.addAttribute("bvo",bvo);
+//		BoardVO bvo = bsv.detail(bno);
+	
+		BoardDTO bdto = bsv.getDetail(bno);
+		model.addAttribute("bvo", bdto.getBvo());
+		model.addAttribute("boardDTO", bdto);
 	}
 	
 	

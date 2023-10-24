@@ -2,6 +2,7 @@ package com.myweb.www.config;
 
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -42,6 +43,18 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
 		// 그외 기타 사용자 설정
 		// 사용자 지정 익셉션 설정을 할것인지 처리
 		registration.setInitParameter("throwExceptionIfNotHandlerFount", "true");
+		
+		//파일 업로드 설정
+		//경로, maxFileSize, maxReqSize, fileSize, fileSizeThreshold
+		String uploadLocation = "D:\\_myweb\\_java\\fileupload";	//파일 저장 경로
+		int maxFileSize = 1024*1024*20;	//20MB
+		int maxReqSize = maxFileSize*2;	//40MB
+		int fileSizeThreshold = maxFileSize;	//20MB
+		
+		MultipartConfigElement multipartConfig = 
+				new MultipartConfigElement(uploadLocation, maxFileSize, maxReqSize, fileSizeThreshold);
+				
+		registration.setMultipartConfig(multipartConfig);	
 	}
 	
 

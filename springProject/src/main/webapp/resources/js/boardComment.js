@@ -114,7 +114,7 @@ async function removeCommentToServer(cno) {
         const config = {
             method: 'delete'
         };
-        const resp = await fetch(url, config);
+        const resp = await fetch(url, config); ql;
         const result = await resp.text();
         return result;
     } catch (error) {

@@ -19,6 +19,15 @@
   			limit #{pageStart}, #{qty}
   		</select>
   		
+  		<update id="updateCommentCount">
+			update board set cmt_qty = (select count(cno) from comment where bno = board.bno);
+		</update>
+		
+		<update id="updateFileCount">
+			update board set has_file = (select count(uuid) from file where bno = board.bno);
+		</update>
+  		
+  		
   		<select id="getCntDetail" resultType="com.myweb.www.domain.BoardVO">
   			select * from board where bno = #{bno}
   		</select>

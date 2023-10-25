@@ -55,8 +55,6 @@ public class PagingHandler {
 			List<CommentVO> cmtList) {
 		this(pgvo, totalCount);
 		this.cmtList = cmtList;
-		
-		
 	}
 	
 	

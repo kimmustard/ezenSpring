@@ -28,6 +28,8 @@ public class BoardVO {
 	private String regAt;
 	private String modAt;
 	private int readCount;
+	
+	// 댓글 페이징
 	private int cmtQty;
 	private	int hasFile;
 	

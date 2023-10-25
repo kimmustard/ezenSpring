@@ -33,6 +33,9 @@ public class BaordServiceImpl implements BoardService{
 
 	@Override
 	public List<BoardVO> getList(PagingVO pgvo) {
+		bdao.updateCommentCount();
+		bdao.updateFileCount();
+		
 		
 		return bdao.getList(pgvo);
 	}
@@ -73,9 +76,24 @@ public class BaordServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public int modify(BoardVO bvo) {
+	public int modify(BoardDTO bdto) {
 		
-		return bdao.modify(bvo);
+		int isOk = bdao.modify(bdto.getBvo());
+		
+		if(bdto.getFlist() == null) {
+			isOk *= 1;
+		}else {
+			if(isOk >0 && bdto.getFlist().size() > 0) {
+				Long bno = bdto.getBvo().getBno();
+				// 모든 fvo에 bno 세팅
+				for(FileVO fvo : bdto.getFlist()) {
+					fvo.setBno(bno);
+					isOk *= fdao.insertFile(fvo);
+				}
+			}
+		}
+		
+		return isOk;
 	}
 
 	@Override
@@ -112,6 +130,18 @@ public class BaordServiceImpl implements BoardService{
 			
 		}
 		return isUp; 
+	}
+
+	@Override
+	public int removeFile(String uuid) {
+			
+		return fdao.removeFile(uuid);
+	}
+
+	@Override
+	public FileVO getFile(String uuid) {
+		
+		return fdao.getFile(uuid);
 	}
 
 

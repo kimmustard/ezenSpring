@@ -9,7 +9,15 @@
 	</insert>
 
 	<select id="selectList" resultType="com.myweb.www.domain.FileVO">
-		select * from file where bno = #{bno}
+		select * from file where bno = #{bno} order by reg_at desc
+	</select>
+	
+	<delete id="removeFile">
+		delete from file where uuid = #{uuid} 
+	</delete>	
+
+	<select id="getFile" resultType="com.myweb.www.domain.FileVO">
+		select * from file where uuid = #{uuid}
 	</select>
 
 </mapper>

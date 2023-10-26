@@ -23,6 +23,9 @@
 	margin-right: 20px;
 	margin-bottom: 20px;
 }
+ul{
+   list-style:none;
+   }
 </style>
 </head>
 <body>
@@ -66,8 +69,10 @@
 					<c:when test="${fvo.fileType > 0}">
 						<div>
 							<div class="fw-bold">${fvo.fileName }</div>
-							<a href="/board/file/${fvo.uuid }"><img alt="그림 없음" src="/upload/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_th_${fvo.fileName}"></a>						
+							<a href="/board/file/${fvo.uuid }"><img alt="그림 없음" src="/upload/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_th_${fvo.fileName}"></a>	
+							<div class="badge rounded-pill text-bg-dark">${fvo.regAt } </div>					
 						</div>
+						<hr>
 					</c:when>
 				<c:otherwise>
 						<div>

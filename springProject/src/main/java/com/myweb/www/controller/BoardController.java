@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -135,9 +137,17 @@ public class BoardController {
 	
 	
 	@PostMapping("/modify")
-	public String modify(@ModelAttribute BoardVO bvo, Model model, RedirectAttributes rttr,
+	public String modify(@Valid @ModelAttribute("bvo") BoardVO bvo, BindingResult bindingResult, 
+			Model model, RedirectAttributes rttr,
 			@RequestParam(name = "files", required = false)MultipartFile[] files) {
-
+		
+		
+		if(bindingResult.hasErrors()) {
+			BoardDTO bdto = bsv.getDetail(bvo.getBno());
+			model.addAttribute("bvo", bvo);
+			model.addAttribute("boardDTO" , bdto);
+			return "/board/modify";
+		}
 		
 		List<FileVO> flist = null;
 		//file upload handler 생성
@@ -147,7 +157,6 @@ public class BoardController {
 		
 		
 		int isOk = bsv.modify(new BoardDTO(bvo, flist)); 
-		
 		
 //		int isOk = bsv.modify(bvo);
 		log.info("register = {} ", (isOk > 0 ? "Ok" : "Fail"));

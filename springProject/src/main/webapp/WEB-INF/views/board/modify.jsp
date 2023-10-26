@@ -2,24 +2,36 @@
     pageEncoding="UTF-8"%>
      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
      <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+    	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+.errorFont{
+	color: red;
+}
+</style>
+
 </head>
 <body>
 	<jsp:include page="../common/header.jsp" />
 	<jsp:include page="../common/nav.jsp" />
-		<form action="/board/modify" method="post" enctype="multipart/form-data">
+		<form:form action="/board/modify" method="post" modelAttribute="bvo" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tr>
 				<th>글번호</th>
-				<td><input type="text" name="bno" value="${bvo.bno }" readonly="readonly"></td>
+				<td>
+					<input type="text" name="bno" value="${bvo.bno }" readonly="readonly">	
+				</td>
 			</tr>
 			<tr>
 				<th>제목</th>
-				<td><input type="text" name="title" value="${bvo.title }"></td>
+				<td>
+					<form:input type="text" path="title" class="form-control" value="${bvo.title }" name="title" id="exampleFormControlInput1" />
+					<form:errors class="errorFont" path="title"></form:errors>
+				</td>
 			</tr>
 			<tr>
 				<th>작성자</th>
@@ -27,15 +39,18 @@
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td> <textarea rows="5" cols="50" name="content">${bvo.content }</textarea></td>
+				<td> 
+				<form:textarea class="form-control" path="content" name="content" value="${bvo.content }" id="exampleFormControlTextarea1" rows="3" />
+				<form:errors class="errorFont" path="content"></form:errors>
+				</td>
 			</tr>
 			<tr>
 				<th>작성일</th>
-				<td>${bvo.regAt }</td>
+				<td><form:hidden path="regAt"/>${bvo.regAt }</td>
 			</tr>
 			<tr>	
 				<th>조회수</th>
-				<td>${bvo.readCount }</td>
+				<td><form:hidden path="readCount"/>${bvo.readCount }</td>
 			</tr>
 		
 		
@@ -66,8 +81,8 @@
 						<div>
 							<div class="fw-bold">${fvo.fileName }</div>
 						 	<img alt="그림 없음" src="/upload/${fn:replace(fvo.saveDir,'\\','/')}/${fvo.uuid}_th_${fvo.fileName}">	
-							<button type="button" class="file-x" data-uuid="${fvo.uuid }"> 삭제 </button>				
-							<div>${fvo.regAt } </div>	
+							<div class="badge rounded-pill text-bg-dark">${fvo.regAt } </div>	
+							<button type="button" class="file-x btn btn-danger" data-uuid="${fvo.uuid }"> 삭제 </button>				
 						</div>
 					</c:when>
 				<c:otherwise>
@@ -82,10 +97,11 @@
 		</c:forEach>
 		</ul>
 	
-	<button type="submit" id="regBtn"> 수정 완료 </button><br>
+	<button type="submit" id="regBtn" class="btn btn-primary"> 수정 완료 </button><br>
 
-	</form>
-	<a href="/"><button> 메인으로 </button></a>
+</form:form>
+	<br>
+	<a href="/"><button type="button" class="btn btn-primary"> 메인으로 </button></a>
 	
 	<script type="text/javascript" src="/resources/js/boardRegister.js"></script>
 	<script type="text/javascript" src="/resources/js/boardModify.js"></script>

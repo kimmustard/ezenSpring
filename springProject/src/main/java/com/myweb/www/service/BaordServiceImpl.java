@@ -3,6 +3,7 @@ package com.myweb.www.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myweb.www.domain.BoardDTO;
 import com.myweb.www.domain.BoardVO;
@@ -31,6 +32,7 @@ public class BaordServiceImpl implements BoardService{
 //		return bdao.insert(bvo);
 //	}
 
+	@Transactional
 	@Override
 	public List<BoardVO> getList(PagingVO pgvo) {
 		bdao.updateCommentCount();
@@ -51,6 +53,7 @@ public class BaordServiceImpl implements BoardService{
 //		return bdao.cntdetail(bno);
 //	}
 
+	@Transactional
 	@Override
 	public BoardDTO getDetail(Long bno) {
 		BoardVO bvo = bdao.getDetail(bno);
@@ -62,6 +65,7 @@ public class BaordServiceImpl implements BoardService{
 		return bdto;
 	}
 	
+	@Transactional
 	@Override
 	public BoardDTO getCntDetail(Long bno) {
 		bdao.readdetail(bno);	//카운터
@@ -75,6 +79,7 @@ public class BaordServiceImpl implements BoardService{
 		return bdto;
 	}
 	
+	@Transactional
 	@Override
 	public int modify(BoardDTO bdto) {
 		
@@ -96,9 +101,11 @@ public class BaordServiceImpl implements BoardService{
 		return isOk;
 	}
 
+	@Transactional
 	@Override
 	public int remove(Long bno) {
 		csv.cmtDeleteAll(bno);
+		fdao.fileDeleteAll(bno);
 		return bdao.remove(bno);
 	}
 
@@ -109,6 +116,7 @@ public class BaordServiceImpl implements BoardService{
 		return bdao.getTotalCount(pgvo);
 	}
 
+	@Transactional
 	@Override
 	public int insert(BoardDTO bdto) {
 		// bvo, flist 가져와서 각자 db에 저장하는 역할

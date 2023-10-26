@@ -9,7 +9,7 @@
   		</insert>
   		
   		<select id="selectOneBno" resultType="Long">
-  			select max(bno) from board;
+  			select max(bno) from board
   		</select>
   		
   		<select id="getList" resultType="com.myweb.www.domain.BoardVO">
@@ -20,11 +20,11 @@
   		</select>
   		
   		<update id="updateCommentCount">
-			update board set cmt_qty = (select count(cno) from comment where bno = board.bno);
+			update board set cmt_qty = (select count(cno) from comment where bno = board.bno)
 		</update>
 		
 		<update id="updateFileCount">
-			update board set has_file = (select count(uuid) from file where bno = board.bno);
+			update board set has_file = (select count(uuid) from file where bno = board.bno)
 		</update>
   		
   		
@@ -39,6 +39,7 @@
   		<update id="readdetail">
   			update board set read_count = read_count +1 where bno = #{bno}
   		</update>
+  		
   		<update id="modify">
   			update board set title = #{title}, content = #{content}, mod_at = now() where bno = #{bno}
   		</update>

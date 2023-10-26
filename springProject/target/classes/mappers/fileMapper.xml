@@ -20,4 +20,11 @@
 		select * from file where uuid = #{uuid}
 	</select>
 
+	<delete id="fileDeleteAll">
+		delete from file where bno = #{bno}
+	</delete>
+	
+	<select id="selectListAllFiles" resultType="com.myweb.www.domain.FileVO">
+		select * from file
+	</select>
 </mapper>

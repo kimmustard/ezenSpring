@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -84,7 +85,7 @@ public class RootConfig {
 	
 	// 트랜잭션 매니저 빈 설정
 	@Bean
-	public DataSourceTransactionManager transactionManager() {
+	public PlatformTransactionManager transactionManager() {
 		return new DataSourceTransactionManager(dataSource());
 	}
 	

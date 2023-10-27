@@ -29,7 +29,15 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/board/register">Board Reg</a>
 						</li>
-						
+						<li class="nav-item">
+							<a class="nav-link" href="/member/register">member register</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/member/login">login</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/member/logout">logout</a>
+						</li>
 
 					</ul>
 					

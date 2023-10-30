@@ -17,13 +17,10 @@ import lombok.ToString;
 @NoArgsConstructor
 public class MemberVO {
 
-	@NotBlank(message = "이메일을 입력하세요.")
 	private String email;
 	
-	@NotBlank(message = "비밀번호를 입력해주세요.")
 	private String pwd;
 	
-	@NotBlank(message = "닉네임을 입력해주세요.")
 	private String nickName;
 	
 	private String regAt;

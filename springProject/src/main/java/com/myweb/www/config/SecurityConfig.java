@@ -23,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
+	
+	
 	//security package를 별도로 생성하여 사용자 핸들러 생성
 	//비밀번호 암호화하는 객체 빈 생성
 	@Bean
@@ -78,6 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.failureHandler(authFailureHanlder());
 		
 		//로그아웃 페이지 구성
+		//.logoutUrl 로그아웃 페이지 반드시 method="post"
 		http.logout()
 		.logoutUrl("/member/logout")
 		.invalidateHttpSession(true)

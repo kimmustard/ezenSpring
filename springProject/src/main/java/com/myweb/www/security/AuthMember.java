@@ -28,7 +28,7 @@ public class AuthMember extends User{
 				 .stream()
 				 .map(authVO -> new SimpleGrantedAuthority(authVO.getAuth()))
 				 .collect(Collectors.toList()));
-		
+		//로그인 실제 객체를 완성
 		this.mvo = mvo;
 	}
 	

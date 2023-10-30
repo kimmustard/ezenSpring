@@ -12,4 +12,10 @@ public interface MemberService {
 
 	List<MemberVO> MemberList();
 
+	MemberVO getUser(String email);
+
+	int noPwdMod(MemberVO mvo);
+
+	int pwdMod(MemberVO mvo);
+
 }

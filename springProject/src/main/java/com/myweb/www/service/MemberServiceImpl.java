@@ -37,4 +37,19 @@ public class MemberServiceImpl implements MemberService{
 		
 		return mdao.memberList();
 	}
+
+	@Override
+	public MemberVO getUser(String email) {
+		return mdao.getUser(email);
+	}
+
+	@Override
+	public int noPwdMod(MemberVO mvo) {
+		return mdao.noPwdMod(mvo);
+	}
+
+	@Override
+	public int pwdMod(MemberVO mvo) {
+		return mdao.pwdMod(mvo);
+	}
 }

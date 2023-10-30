@@ -18,6 +18,12 @@ public interface MemberDAO {
 	int updateLastLogin(String authEmail);
 
 	List<MemberVO> memberList();
+
+	MemberVO getUser(String email);
+
+	int noPwdMod(MemberVO mvo);
+
+	int pwdMod(MemberVO mvo);
 	
 	
 

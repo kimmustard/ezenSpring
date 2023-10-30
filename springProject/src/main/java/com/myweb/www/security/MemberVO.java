@@ -2,7 +2,7 @@ package com.myweb.www.security;
 
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

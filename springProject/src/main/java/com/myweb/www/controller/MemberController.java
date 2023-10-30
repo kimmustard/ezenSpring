@@ -4,8 +4,12 @@ package com.myweb.www.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myweb.www.security.MemberVO;
@@ -50,7 +55,6 @@ public class MemberController {
 		
 		//암호화
 		mvo.setPwd(bcEncoder.encode(mvo.getPwd()));
-		
 		int isOk = msv.register(mvo);
 		
 		return "index";
@@ -79,6 +83,39 @@ public class MemberController {
 		
 		model.addAttribute("list",list);
 		return "/member/list";
+	}
+	
+	@GetMapping("/member/detail")
+	public String detailForm(@RequestParam("email") String email, Model model) {
+		MemberVO mvo = msv.getUser(email);
+		model.addAttribute("mvo", mvo);
+		return "/member/detail";
+	}
+	
+	@PostMapping("/member/detail")
+	public String detail(MemberVO mvo, HttpServletRequest request, HttpServletResponse response){
+		log.info("detail mvo = {}", mvo);
+		if(mvo.getPwd().isEmpty()) {
+			int isOk = msv.noPwdMod(mvo);
+			log.info("비밀번호 null일시 저장완료!!!!!!!");
+			logout(request, response);
+			
+			return "index";
+			
+		}
+		mvo.setPwd(bcEncoder.encode(mvo.getPwd()));
+		int isOk = msv.pwdMod(mvo);
+		log.info("정상 저장완료!!!!!!!");
+		logout(request, response);
+		
+		return "index";
+	}
+
+	
+	private void logout(HttpServletRequest request, HttpServletResponse response) {
+		//사용자 정보를 찾는 인자 ?
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		new SecurityContextLogoutHandler().logout(request, response, auth);
 	}
 	
 

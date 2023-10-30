@@ -19,8 +19,8 @@ public class CustomAuthMemberService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// userName DB에 설정되어 있는 email인지를 체크해서
-		// 인증하여 해당 객체를 AuthMember로 리턴 해줌
 		MemberVO mvo = mdao.selectEmail(username);
+		// 인증하여 해당 객체를 AuthMember로 리턴 해줌
 		
 		if(mvo == null) {
 			throw new UsernameNotFoundException(username);

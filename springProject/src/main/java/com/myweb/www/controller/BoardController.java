@@ -1,9 +1,11 @@
 package com.myweb.www.controller;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.core.io.Resource;
@@ -54,6 +56,9 @@ public class BoardController {
 	
 //	@Value("${test}")
 //	private String test;
+	
+
+	
 	
 	@GetMapping("/register")
 	public String register(Model model) {
@@ -193,7 +198,7 @@ public class BoardController {
 		String fileName = fvo.getFileName();
 
 		//풀경로
-		String fullName = "file:///C:\\_myweb\\_java\\fileupload\\"+date+"\\"+uuid+"_"+fileName;
+		String fullName = "file:///D:\\_myweb\\_java\\fileupload\\"+date+"\\"+uuid+"_"+fileName;
 		log.info("Download fullName>>>>>>>> = {}", fullName);
 		
 		//resource객체로 매핑

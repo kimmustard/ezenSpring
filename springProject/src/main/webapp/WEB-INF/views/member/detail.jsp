@@ -28,6 +28,7 @@
 		</table>
 			<button type="submit"> 수정완료 </button>
 	</form>
+			<a href="/member/remove?email=${mvo.email }"><button type="button">회원탈퇴</button></a>
 			<a href="/board/list"><button> 돌아가기 </button></a>
 	<jsp:include page="../common/footer.jsp"/>
 </body>

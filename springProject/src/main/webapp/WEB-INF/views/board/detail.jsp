@@ -133,6 +133,7 @@ ul{
 		      
 		      <div class="modal-body">
 		        <div class="input-group mb-3">
+		        	<input type="hidden" id="cmtWriterMod">
 			         <input type="text" class="form-control" placeholder="Test Comment" id="cmtTextMod">
 					 <button type="button" class="btn btn-primary" id="cmtModBtn">등록</button>
 				 </div>

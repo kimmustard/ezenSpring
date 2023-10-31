@@ -66,9 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//http의 승인요청 담당
 		http.authorizeRequests()
 		.antMatchers("/member/list").hasRole("ADMIN")
-		.antMatchers("/","/board/list","/board/cntdetail","/upload/**","/comment/**",
-				"/board/detail","/resources/**","/member/register","/member/login").permitAll()
-		.anyRequest().authenticated(); // => 인증된 사용자만 처리
+		.antMatchers("/","/board/list","/board/cntdetail","/upload/**","/comment/list",
+				"/board/detail","/resources/**","/member/register","/member/login").permitAll()// 인증된 사용자만 처리
+		.anyRequest().authenticated(); // => 나머지 사용자 처리
 		
 		// 커스텀 로그인 페이지를 구성
 		// 컨트롤러의 주소 요청 매핑도 같이 꼭 적어줘야 한다.

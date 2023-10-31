@@ -70,7 +70,7 @@ function getCommentList(bno, page = 1) {
 
             for (let i = 0; i < result.cmtList.length; i++) {
                 let str = `<div id="cmtBody${i}">`;
-                str += `<li class="list-group-item" data-cno=${result.cmtList[i].cno} id="cmtBody${i}">`;
+                str += `<li class="list-group-item" data-cno=${result.cmtList[i].cno} data-writer=${result.cmtList[i].writer} id="cmtBody${i}">`;
                 str += `<div>`;
                 str += `<div> ${result.cmtList[i].writer} </div>`;
                 str += `${result.cmtList[i].content}`;
@@ -108,9 +108,9 @@ function getCommentList(bno, page = 1) {
 
 
 
-async function removeCommentToServer(cno) {
+async function removeCommentToServer(cno, writer) {
     try {
-        const url = '/comment/' + cno;
+        const url = '/comment/' + cno + '/' + writer;
         const config = {
             method: 'delete'
         };
@@ -129,6 +129,7 @@ document.addEventListener('click', (e) => {
         let li = e.target.closest('li');
         let conVal = li.dataset.cno;
         let cmtText = e.target.dataset.content;
+        let writer = li.dataset.writer;
         console.log(conVal);
         // let cmtText = document.getElementById('cmtTextInput').value;
         //nextSibling() : 같은 부모의 다음 형제 객체를 반환
@@ -139,6 +140,7 @@ document.addEventListener('click', (e) => {
 
         document.getElementById('cmtModBtn').setAttribute('data-cno', li.dataset.cno);
         document.getElementById('cmtModBtn').setAttribute('data-content', cmtText);
+        document.getElementById('cmtModBtn').setAttribute('data-writer', writer);
         document.getElementById('cmtTextMod').value = cmtText;
 
 
@@ -146,6 +148,7 @@ document.addEventListener('click', (e) => {
 
         let cmtDataMod = {
             cno: e.target.dataset.cno,
+            writer: e.target.dataset.writer,
             content: document.getElementById('cmtTextMod').value
         };
         console.log(cmtDataMod);
@@ -164,8 +167,9 @@ document.addEventListener('click', (e) => {
     } else if (e.target.classList.contains('delBtn')) {
         console.log("삭제 버튼 클릭");
         let cno = e.target.dataset.cno;
-
-        removeCommentToServer(cno).then(result => {
+        let writer = e.target.dataset.writer;
+        console.log(writer);
+        removeCommentToServer(cno, writer).then(result => {
             if (result == 1) {
                 alert("삭제 성공");
             } else {

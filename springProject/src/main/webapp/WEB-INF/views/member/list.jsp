@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+     <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
      
 <!DOCTYPE html>
 <html>
@@ -32,7 +33,9 @@
 					<td>${mvo.nickName }</td>
 					<td>${mvo.regAt }</td>
 					<td>${mvo.lastLogin }</td>
-					<td>${mvo.authList }</td>
+					<td><c:forEach items="${mvo.authList}" var="authList">
+						${authList.auth }
+					</c:forEach></td>
 				</tr>
 			</c:forEach>
 		</tbody>

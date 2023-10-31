@@ -1,6 +1,6 @@
 package com.myweb.www.controller;
 
-import java.util.List;
+import java.security.Principal;
 
 import javax.validation.Valid;
 
@@ -64,9 +64,17 @@ public class CommentController {
 		return new ResponseEntity<PagingHandler> (list, HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/{cno}")
-	public ResponseEntity<String> remove(@PathVariable("cno") long cno){
+	@DeleteMapping(value = "/{cno}/{writer}")
+	public ResponseEntity<String> remove(@PathVariable("cno") long cno, @PathVariable("writer")String writer, Principal principal){
+		log.info("writer = {}" , writer);
+		log.info("principal.getName() = {}" , principal.getName());
 		
+		
+		if(!principal.getName().equals(writer)) {
+			return new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR) ;
+		}
+		
+		log.info("cno555555555 = {}",cno);
 		int isOk = csv.remove(cno);
 		
 		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) :
@@ -74,7 +82,17 @@ public class CommentController {
 	}
 	
 	@PutMapping(value = "/{cno}", consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
-	public ResponseEntity<String> modify(@PathVariable("cno") long cno, @RequestBody CommentVO cvo){
+	public ResponseEntity<String> modify(@PathVariable("cno") long cno, @RequestBody CommentVO cvo, Principal principal){
+		log.info("principal = {}",principal.getName());
+		log.info("cvo.getWriter() = {}", cvo.getWriter());
+		
+		
+		if(!principal.getName().equals(cvo.getWriter())) {
+			return new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR) ;
+		}
+		
+		
+		
 		int isOk = csv.modify(cvo);
 		return isOk > 0 ? new ResponseEntity<String>("1", HttpStatus.OK) :
 			 new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR) ;

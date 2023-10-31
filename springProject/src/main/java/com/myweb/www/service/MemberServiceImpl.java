@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 
 import com.myweb.www.repository.MemberDAO;
+import com.myweb.www.security.AuthVO;
 import com.myweb.www.security.MemberVO;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,8 @@ public class MemberServiceImpl implements MemberService{
 		
 		return mdao.memberList();
 	}
+	
+
 
 	@Override
 	public MemberVO getUser(String email) {
@@ -52,4 +56,15 @@ public class MemberServiceImpl implements MemberService{
 	public int pwdMod(MemberVO mvo) {
 		return mdao.pwdMod(mvo);
 	}
+
+	@Override
+	public int userDel(String email) {
+
+		mdao.authRemove(email);
+		return mdao.remove(email);
+	}
+
+
+
+
 }

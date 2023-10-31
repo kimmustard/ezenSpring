@@ -41,4 +41,16 @@
   	update member set pwd = #{pwd}, nick_name = #{nickName} where email = #{email}
   </update>
   
+  <select id="authList" resultType="com.myweb.www.security.AuthVO">
+  	select * from auth_member where email = #{email}
+  </select>
+  
+  <delete id="remove">
+  	delete from member where email = #{email}
+  </delete>
+  
+  <delete id="authRemove">
+  	delete from auth_member where email = #{email}
+  </delete>
+
   </mapper>

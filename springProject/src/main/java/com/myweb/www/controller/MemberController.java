@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.myweb.www.repository.MemberDAO;
 import com.myweb.www.security.MemberVO;
 import com.myweb.www.service.MemberService;
 
@@ -35,12 +38,15 @@ public class MemberController {
 
 	
 	private final MemberService msv;
+	private final MemberDAO mdao;
 	
 	private final BCryptPasswordEncoder bcEncoder;
 	
 	@GetMapping("/register")
 	public String register(@ModelAttribute("mvo")MemberVO mvo, Model model) {
-		model.addAttribute("mvo", mvo);
+		
+		
+ 		model.addAttribute("mvo", mvo);
 		return "/member/register";
 	}
 	
@@ -81,6 +87,9 @@ public class MemberController {
 	public String memberList(Model model) {
 		List<MemberVO> list = msv.MemberList();
 		
+		for (MemberVO mvo : list) {
+			mvo.setAuthList(mdao.selectAuths(mvo.getEmail()));
+		}
 		model.addAttribute("list",list);
 		return "/member/list";
 	}
@@ -109,6 +118,16 @@ public class MemberController {
 		logout(request, response);
 		
 		return "index";
+	}
+	
+	@GetMapping("/member/remove")
+	public String remove(@RequestParam("email")String email, HttpServletRequest request, HttpServletResponse response) {
+		
+		int isOk = msv.userDel(email);
+		
+		
+		logout(request, response);
+		return "index";		
 	}
 
 	

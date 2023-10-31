@@ -2,6 +2,8 @@ package com.myweb.www.repository;
 
 import java.util.List;
 
+import org.springframework.util.MultiValueMap;
+
 import com.myweb.www.security.AuthVO;
 import com.myweb.www.security.MemberVO;
 
@@ -24,6 +26,16 @@ public interface MemberDAO {
 	int noPwdMod(MemberVO mvo);
 
 	int pwdMod(MemberVO mvo);
+
+	int remove(String email);
+
+	void authRemove(String email);
+
+
+
+
+
+
 	
 	
 

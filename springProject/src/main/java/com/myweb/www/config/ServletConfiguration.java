@@ -34,7 +34,7 @@ public class ServletConfiguration implements WebMvcConfigurer{
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
 		registry.viewResolver(viewResolver);
-	} 
+	}
 	
 	//bean으로 multipartResolver를 설정하면 된다.
 	@Bean(name = "multipartResolver")

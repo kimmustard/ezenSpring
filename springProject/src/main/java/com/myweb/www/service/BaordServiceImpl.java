@@ -42,11 +42,11 @@ public class BaordServiceImpl implements BoardService{
 		return bdao.getList(pgvo);
 	}
 
-//	@Override
-//	public BoardVO detail(Long bno) {
-//		
-//		return bdao.detail(bno);
-//	}
+	@Override
+	public BoardVO detail(Long bno) {
+		
+		return bdao.getDetail(bno);
+	}
 //	@Override
 //	public BoardVO cntdetail(Long bno) {
 //		bdao.readdetail(bno);

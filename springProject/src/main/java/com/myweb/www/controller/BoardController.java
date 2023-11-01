@@ -1,11 +1,11 @@
 package com.myweb.www.controller;
 
-import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.security.Principal;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.core.io.Resource;
@@ -127,22 +127,38 @@ public class BoardController {
 		return "/board/detail";
 	}
 	
-	@GetMapping({"/detail","modify"})
+	@GetMapping("/detail")
 	public void detail(@RequestParam("bno")Long bno, Model model) {
 		log.info("detail Modify bno = {}", bno);
-		
-//		BoardVO bvo = bsv.detail(bno);
 	
 		BoardDTO bdto = bsv.getDetail(bno);
 		model.addAttribute("bvo", bdto.getBvo());
 		model.addAttribute("boardDTO", bdto);
 	}
 	
+	@GetMapping("modify")
+	public String modify(@RequestParam("bno")Long bno, Model model, Principal principal, RedirectAttributes rttr) {
+		log.info("detail Modify bno = {}", bno);
+		
+		BoardVO bvo = bsv.detail(bno);
+		if(!principal.getName().equals(bvo.getWriter())) {
+			rttr.addAttribute("bno", bvo.getBno());
+			rttr.addFlashAttribute("isOk", 2);
+			return "redirect:/board/detail";
+		}
+	
+		BoardDTO bdto = bsv.getDetail(bno);
+		model.addAttribute("bvo", bdto.getBvo());
+		model.addAttribute("boardDTO", bdto);                                  
+  		return "/board/modify";
+	}
+	
 	
 	@PostMapping("/modify")
 	public String modify(@Valid @ModelAttribute("bvo") BoardVO bvo, BindingResult bindingResult, 
 			Model model, RedirectAttributes rttr,
-			@RequestParam(name = "files", required = false)MultipartFile[] files) {
+			@RequestParam(name = "files", required = false)MultipartFile[] files, Principal principal) {
+	
 		
 		
 		if(bindingResult.hasErrors()) {
@@ -170,7 +186,16 @@ public class BoardController {
 	
 	
 	@GetMapping("/remove")
-	public String remove(@RequestParam("bno")Long bno, RedirectAttributes rttr) {
+	public String remove(@RequestParam("bno")Long bno, RedirectAttributes rttr, Principal principal) {
+		
+		BoardVO bvo = bsv.detail(bno);
+		if(!principal.getName().equals(bvo.getWriter())) {
+			rttr.addAttribute("bno", bvo.getBno());
+			rttr.addFlashAttribute("isOk", 2);
+			return "redirect:/board/detail";
+		}
+		
+		
 		
 		int isOk = bsv.remove(bno);
 		log.info("register = {} ", (isOk > 0 ? "Ok" : "Fail"));

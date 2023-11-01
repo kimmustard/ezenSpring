@@ -153,8 +153,14 @@ ul{
 	<script type="text/javascript">
 		const bnoVal = `<c:out value="${bvo.bno}" />`
 		const isMod = `<c:out value="${isMod}" />`;
+		const isOk = `<c:out value="${isOk}" />`;
 		if( isMod == 1){
 			alert('수정완료!');
+		}
+		if( isOk == 1){
+			alert('성공!');
+		}else if(isOk == 2){
+			alert('사용자가 일치하지 않습니다.');
 		}
 	</script>
 	<script type="text/javascript" src="/resources/js/boardComment.js"></script>

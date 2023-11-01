@@ -13,7 +13,7 @@ public interface BoardService {
 
 	List<BoardVO> getList(PagingVO pgvo);
 
-//	BoardVO detail(Long bno);
+	BoardVO detail(Long bno);
 //	BoardVO cntdetail(Long bno);
 	
 	BoardDTO getDetail(Long bno);
